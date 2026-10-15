@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy 13th Monthsary 🧡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ✏️ 1. PERSONALIZATION — edit everything here, nothing else needed
+   (The CONFIG object is in the <script> at the bottom of the file.)
+   ============================================================ */
+:root{
+  --rose:#e8647c; --blush:#ffd9e2; --pink:#ffb3c6; --cream:#fff8ef; --paper:#fffaf2;
+  --ink:#5a2a3a; --soft:#8b5766; --shadow:0 10px 30px rgba(232,100,124,.25);
+  --hand:'Caveat','Segoe Script','Bradley Hand',cursive;
+  --body:'Lora',Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--body);color:var(--ink);background:var(--blush);overflow-x:hidden;min-height:100vh;line-height:1.6}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.hidden{display:none!important}
+
+/* ---------- background video ---------- */
+#bg{position:fixed;inset:0;z-index:-3;background:linear-gradient(160deg,#ffd9e2,#fff1e6 55%,#ffc2d1)}
+#bg video{width:100%;height:100%;object-fit:cover}
+#bg::after{content:"";position:absolute;inset:0;background:rgba(255,214,226,.55)} /* overlay: change .55 for more/less cover */
+#hearts{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.fh{position:absolute;bottom:-40px;animation:rise linear forwards;opacity:.7}
+@keyframes rise{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+/* ---------- welcome ---------- */
+#welcome{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
+  background:linear-gradient(160deg,#ffe3ea,#fff4ea 60%,#ffc7d4);transition:opacity .9s,visibility .9s}
+#welcome.gone{opacity:0;visibility:hidden}
+#welcome h1{font-family:var(--hand);font-size:clamp(2.4rem,9vw,4.2rem);line-height:1.05;color:var(--rose);max-width:14ch}
+#welcome p{max-width:30ch;margin:14px auto 26px;color:var(--soft);font-style:italic}
+.bigheart{font-size:5rem;animation:beat 1.2s ease-in-out infinite;filter:drop-shadow(0 8px 12px rgba(242,140,40,.4))}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+
+.btn{background:var(--rose);color:#fff;padding:13px 26px;border-radius:999px;font-weight:500;box-shadow:var(--shadow);transition:transform .15s}
+.btn:active{transform:scale(.93)}
+.btn.alt{background:#fff;color:var(--rose)}
+
+.mail-btn{display:flex;flex-direction:column;align-items:center;gap:12px;width:max-content;margin-inline:auto;background:none;padding:8px 16px;color:var(--rose);font-family:var(--hand);font-size:1.6rem;font-weight:700;touch-action:manipulation}
+.mail-envelope{position:relative;display:block;width:190px;height:126px;border:2px solid #e9a0ae;border-radius:8px;background:linear-gradient(145deg,#fffdf8,#ffe9e8);box-shadow:0 12px 24px rgba(90,42,58,.2);transition:transform .2s,box-shadow .2s;perspective:500px}
+.mail-envelope::before{content:"";position:absolute;inset:0 0 auto;height:68%;z-index:3;background:#ffd5dc;clip-path:polygon(0 0,100% 0,50% 76%);transform-origin:top;transition:transform .35s,filter .2s}
+.mail-envelope::after{content:"";position:absolute;inset:0;z-index:4;background:linear-gradient(35deg,#ffe5e3 49.5%,transparent 50%),linear-gradient(-35deg,#ffe5e3 49.5%,transparent 50%);clip-path:polygon(0 0,50% 53%,100% 0,100% 100%,0 100%);border-radius:6px}
+.mail-seal{position:absolute;z-index:5;left:50%;top:54%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#f28c28;font-family:var(--body);font-size:1.3rem;box-shadow:0 3px 8px rgba(90,42,58,.2)}
+.mail-btn:hover .mail-envelope,.mail-btn:focus-visible .mail-envelope{transform:translateY(-5px) rotate(-2deg);box-shadow:0 17px 28px rgba(90,42,58,.24)}
+.mail-btn:hover .mail-envelope::before,.mail-btn:focus-visible .mail-envelope::before{filter:brightness(1.04);transform:rotateX(18deg)}
+.mail-btn.opened .mail-envelope::before{transform:rotateX(180deg)}
+.mail-btn:active .mail-envelope{transform:translateY(1px) scale(.97)}
+.mail-label{line-height:1.1}
+.tap-hint{margin:0 auto 2px;color:var(--rose);font-family:var(--hand);font-size:1.35rem;line-height:1.1}
+.tap-hint span{display:block;font-size:1.5rem}
+
+/* ---------- main ---------- */
+main{opacity:0;transition:opacity 1s}
+main.show{opacity:1}
+section{max-width:720px;margin:0 auto;padding:56px 18px;text-align:center}
+h2{font-family:var(--hand);font-size:2.4rem;color:var(--rose);margin-bottom:6px}
+.sub{color:var(--soft);margin-bottom:24px;font-style:italic}
+.hero h2{font-size:clamp(2.4rem,10vw,3.6rem)}
+
+/* counter */
+.counter{display:inline-block;background:rgba(255,255,255,.85);border-radius:28px;padding:18px 34px;box-shadow:var(--shadow);margin-top:18px}
+.counter b{display:block;font-family:var(--hand);font-size:4rem;line-height:1;color:var(--rose)}
+.counter small{color:var(--soft)}
+
+/* photos — polaroid scrapbook */
+.photos{display:none;gap:30px;justify-items:center;margin-top:28px}
+.photos.open{display:grid}
+.polaroid{background:#fff;padding:12px 12px 16px;border-radius:14px;box-shadow:var(--shadow);width:min(100%,320px);transition:transform .25s}
+.polaroid{transform:rotate(var(--r,0deg))}
+.polaroid:nth-child(1){--r:-2.5deg}.polaroid:nth-child(2){--r:2deg}.polaroid:nth-child(3){--r:-1.5deg}
+.photos.open .polaroid{animation:popout .8s cubic-bezier(.3,1.6,.5,1) backwards;animation-delay:calc(var(--i,0)*.3s)}
+@keyframes popout{from{opacity:0;transform:translateY(-80px) scale(.2) rotate(-30deg)}}
+.polaroid:hover{transform:rotate(0) scale(1.03)}
+.polaroid:active{transform:scale(.96)}
+.polaroid button{display:block;width:100%;background:none;padding:0;border-radius:8px;overflow:hidden}
+.polaroid img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--blush)}
+.polaroid p{font-family:var(--hand);font-size:1.4rem;line-height:1.2;margin-top:10px;color:var(--ink)}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:80;background:rgba(90,42,58,.85);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;animation:fade .25s}
+#lb img{max-width:100%;max-height:75vh;border:10px solid #fff;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+#lb p{font-family:var(--hand);font-size:1.6rem;color:#fff;margin:14px 0}
+@keyframes fade{from{opacity:0}}
+
+/* letter */
+.paper{background:var(--paper);border-radius:6px 22px 22px 22px;padding:30px 24px;text-align:left;box-shadow:var(--shadow);position:relative;
+  background-image:repeating-linear-gradient(transparent 0 33px,rgba(232,100,124,.18) 33px 34px);line-height:34px;font-family:var(--hand);font-size:1.45rem;
+  max-height:0;overflow:hidden;opacity:0;padding-top:0;padding-bottom:0;transition:max-height 1.6s ease,opacity 1s,padding .6s}
+.paper.open{max-height:2600px;opacity:1;padding:30px 24px}
+.paper p{margin-bottom:34px}
+.paper .sig{white-space:pre-line;text-align:right;color:var(--rose);font-weight:700}
+.seal{font-size:3rem;display:block;margin-bottom:12px}
+
+/* extras */
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.final{font-family:var(--hand);font-size:2.2rem;color:var(--rose);line-height:1.15}
+.burst{position:fixed;z-index:90;pointer-events:none;font-size:1.8rem;animation:burst 1.1s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) scale(1.4);opacity:0}}
+footer{text-align:center;padding:30px 20px 100px;color:var(--soft);font-size:.9rem}
+
+/* customize panel */
+#panel{position:fixed;z-index:70;left:10px;right:10px;bottom:72px;max-width:420px;max-height:70vh;overflow:auto;background:#fff;border-radius:22px;padding:18px;box-shadow:0 14px 40px rgba(90,42,58,.35);font-size:.9rem}
+#panel h3{font-family:var(--hand);font-size:1.6rem;color:var(--rose)}
+#panel label{display:block;margin:12px 0 4px;font-weight:500}
+#panel input[type=text],#panel input[type=file]{width:100%;padding:8px;border:1px solid var(--pink);border-radius:10px;font:inherit;font-size:.85rem}
+#panel small{color:var(--soft);display:block;margin-top:3px}
+
+@media (min-width:720px){.photos{grid-template-columns:repeat(3,1fr);align-items:start}.polaroid{width:100%}.paper{font-size:1.6rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.paper{max-height:none}}
+</style>
+</head>
+<body>
+
+<div id="bg" aria-hidden="true"></div>
+<div id="hearts" aria-hidden="true"></div>
+
+<!-- Welcome screen -->
+<div id="welcome">
+  <div class="bigheart" aria-hidden="true">🧡</div>
+  <h1 id="wTitle"></h1>
+  <p id="wSub"></p>
+  <button class="btn" id="openBtn" type="button">Proceed</button>
+</div>
+
+<main id="main">
+  <section class="hero" id="top">
+    <h2 id="heroTitle"></h2>
+    <p class="sub" id="heroSub"></p>
+    <div class="counter"><b id="count">0</b><small>Months of Us 🧡</small></div>
+    <p class="sub" style="margin-top:14px" id="days"></p>
+  </section>
+
+  <section id="letter">
+    <p class="tap-hint" aria-hidden="true">Touch me<span>↓</span></p>
+    <button class="mail-btn" id="readBtn" aria-label="Read your love letter" aria-expanded="false" aria-controls="paper">
+      <span class="mail-envelope" aria-hidden="true"><span class="mail-seal">🧡</span></span>
+    </button>
+    <div class="photos" id="photoGrid"></div>
+    <div class="paper" id="paper" style="margin-top:24px" aria-live="polite"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</main>
+
+<!-- Lightbox -->
+<div id="lb" class="hidden" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <img id="lbImg" alt=""><p id="lbCap"></p><button class="btn alt" id="lbClose">Close 🧡</button>
+</div>
+
+<!-- Customize panel (preview uploads from your device) -->
+<div id="panel" class="hidden">
+  <h3>Customize (preview) ✏️</h3>
+  <small>Uploads here only preview in this browser. To keep photos, put them in the photos folder and set their paths in CONFIG.</small>
+  <label for="vUrl">Background video URL (.mp4)</label>
+  <input type="text" id="vUrl" placeholder="https://.../video.mp4">
+  <label for="vFile">…or pick a video file</label>
+  <input type="file" id="vFile" accept="video/mp4,video/*">
+  <label for="p0">Photo 1</label><input type="file" id="p0" accept="image/*">
+  <label for="p1">Photo 2</label><input type="file" id="p1" accept="image/*">
+  <label for="p2">Photo 3</label><input type="file" id="p2" accept="image/*">
+  <label for="mFile">Background music</label>
+  <input type="file" id="mFile" accept="audio/*">
+</div>
+<audio id="audio" loop preload="none"></audio>
+
+<script>
+/* ============================================================
+   ✏️ CONFIG — THE ONLY PART YOU NEED TO EDIT
+   ============================================================ */
+const CONFIG = {
+  myName: "Bradi",                // shown in the footer
+  herName: "My Love",             // her name or nickname, e.g. "Baby"
+  monthsaryStart: "2025-09-15",   // the date you became a couple (YYYY-MM-DD) — used for the "days together" line
+  months: 13,                     // the number shown in the counter
+
+  /* 🎬 BACKGROUND VIDEO
+     Option A (hosted):  video: "https://yoursite.com/romantic.mp4"
+     Option B (local):   save the file next to index.html, then: video: "romantic.mp4"
+     Leave "" to use the soft pink background. */
+  video: "",
+
+  /* 📸 PHOTOS — exactly three. Use a path such as "photos/us1.jpg" or a full URL.
+     Leave src "" to show a "your photo here" placeholder. */
+  photos: [
+    { src: "photos/1.png", caption: "One of my favorite memories with you" },
+    { src: "photos/2.jpg", caption: "Your smile will always be my favorite view" },
+    { src: "photos/3.jpg", caption: "And many more memories to come, my love" }
+  ],
+
+  /* 💌 LOVE LETTER — each line break (blank line) starts a new paragraph */
+  letter: `Happy 13th monthsary sa atong duha, bradii! Thank you for being part of my life. No matter what we're going through right now, I'm still grateful for you and for everything we've shared. I love you always, love. Amping kanunay.`,
+  signature: "Forever your person,\nYour Love 💌",
+
+  /* 🎵 MUSIC — starts when Proceed is tapped and loops. */
+  music: "syempre.mp3",
+
+  /* Texts */
+  welcomeTitle: "Happy 13th Monthsary, My Love! 🧡",
+  welcomeSub: "13 months of loving you, and I would still choose you every single time.",
+};
+
+/* ============================================================
+   Code below — no need to edit
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* placeholder image (used when a photo is empty or fails to load) */
+const placeholder = n => 'data:image/svg+xml;utf8,' + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#ffd9e2"/><text x="200" y="240" font-size="90" text-anchor="middle">🧡</text><text x="200" y="320" font-size="26" text-anchor="middle" fill="#e8647c" font-family="sans-serif">Your photo ${n} here</text></svg>`);
+
+/* ---- fill texts ---- */
+$('wTitle').textContent = CONFIG.welcomeTitle;
+$('wSub').textContent = CONFIG.welcomeSub;
+$('heroTitle').textContent = `Happy ${CONFIG.months}th Monthsary, ${CONFIG.herName}!`;
+$('heroSub').textContent = 'A little digital gift, made with love.';
+$('foot').textContent = `Made with 🧡 by ${CONFIG.myName}`;
+document.title = `Happy ${CONFIG.months}th Monthsary, ${CONFIG.herName} 🧡`;
+
+const start = new Date(CONFIG.monthsaryStart + 'T00:00:00');
+if (!isNaN(start)) {
+  const d = Math.floor((Date.now() - start) / 864e5);
+  if (d > 0) $('days').textContent = `That's ${d.toLocaleString()} days of us.`;
+}
+
+/* ---- background video ---- */
+function setVideo(src) {
+  const bg = $('bg');
+  bg.querySelector('video')?.remove();
+  if (!src) return;
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+  v.setAttribute('playsinline', ''); v.setAttribute('muted', '');
+  v.addEventListener('error', () => v.remove());      // fallback: pink gradient shows through
+  v.src = src;
+  bg.prepend(v);
+  v.play().catch(() => {});
+}
+setVideo(CONFIG.video);
+
+/* ---- photos ---- */
+const photos = CONFIG.photos.slice(0, 3);
+const grid = $('photoGrid');
+photos.forEach((p, i) => {
+  const fig = document.createElement('figure');
+  fig.className = 'polaroid'; fig.style.setProperty('--i', i);
+  fig.innerHTML = `<button type="button" aria-label="Open photo ${i + 1} larger"><img id="ph${i}" alt="${esc(p.caption)}" loading="lazy"></button><p>${esc(p.caption)}</p>`;
+  grid.appendChild(fig);
+  const img = fig.querySelector('img');
+  img.onerror = () => { img.onerror = null; img.src = placeholder(i + 1); };
+  img.src = p.src || placeholder(i + 1);
+  fig.querySelector('button').onclick = () => openLb(i);
+});
+function openLb(i) {
+  $('lbImg').src = $('ph' + i).src;
+  $('lbImg').alt = photos[i].caption;
+  $('lbCap').textContent = photos[i].caption;
+  $('lb').classList.remove('hidden');
+  $('lbClose').focus();
+}
+const closeLb = () => $('lb').classList.add('hidden');
+$('lbClose').onclick = closeLb;
+$('lb').onclick = e => { if (e.target.id === 'lb') closeLb(); };
+addEventListener('keydown', e => { if (e.key === 'Escape') { closeLb(); $('panel').classList.add('hidden'); } });
+
+/* ---- letter ---- */
+const paper = $('paper');
+paper.innerHTML = '<span class="seal" aria-hidden="true">💌</span>' +
+  CONFIG.letter.trim().split(/\n\s*\n/).map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') +
+  `<p class="sig">${esc(CONFIG.signature)}</p>`;
+function readLetter() {
+  $('photoGrid').classList.add('open');
+  paper.classList.add('open');
+  $('readBtn').classList.add('opened');
+  $('readBtn').setAttribute('aria-label', 'Letter opened');
+  $('readBtn').setAttribute('aria-expanded', 'true');
+  burst($('readBtn'), ['🧡', '🧡', '✨']);
+  setTimeout(() => $('photoGrid').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), 200);
+}
+$('readBtn').onclick = readLetter;
+
+/* ---- floating hearts (lightweight CSS) ---- */
+const sym = ['🧡', '🧡', '✨', '🌸', '⭐'];
+function floatHeart() {
+  if (document.hidden) return;
+  const h = document.createElement('span');
+  h.className = 'fh';
+  h.textContent = sym[Math.floor(Math.random() * sym.length)];
+  h.style.left = Math.random() * 100 + 'vw';
+  h.style.fontSize = 14 + Math.random() * 18 + 'px';
+  h.style.animationDuration = 7 + Math.random() * 6 + 's';
+  $('hearts').appendChild(h);
+  setTimeout(() => h.remove(), 14000);
+}
+if (!reduce) setInterval(floatHeart, 1400);
+
+/* ---- heart burst (kiss button / hug) ---- */
+function burst(el, emoji) {
+  const r = el.getBoundingClientRect();
+  const n = reduce ? 3 : 14;
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('span');
+    s.className = 'burst';
+    s.textContent = emoji[i % emoji.length];
+    s.style.left = r.left + r.width / 2 + 'px';
+    s.style.top = r.top + r.height / 2 + 'px';
+    s.style.setProperty('--x', (Math.random() - .5) * 260 + 'px');
+    s.style.setProperty('--y', -60 - Math.random() * 220 + 'px');
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1200);
+  }
+}
+/* ---- counter ---- */
+function countUp() {
+  const el = $('count'), end = CONFIG.months;
+  if (reduce) { el.textContent = end; return; }
+  let n = 0;
+  const t = setInterval(() => { el.textContent = ++n; if (n >= end) clearInterval(t); }, 110);
+}
+
+/* ---- welcome -> main ---- */
+$('openBtn').onclick = () => {
+  $('welcome').classList.add('gone');
+  $('main').classList.add('show');
+  scrollTo(0, 0);
+  countUp();
+  startMusic();
+  burst($('openBtn'), ['🧡', '🧡', '✨']);
+};
+document.querySelectorAll('[data-go]').forEach(b => b.onclick = () =>
+  document.querySelector(b.dataset.go).scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
+
+/* ---- music ---- */
+const audio = $('audio');
+audio.volume = 0.5;
+function setMusic(src) { audio.src = src; audio.load(); }
+if (CONFIG.music) setMusic(CONFIG.music);
+function startMusic() {
+  if (!CONFIG.music) return;
+  audio.play().catch(error => {
+    if (error.name === 'NotAllowedError') {
+      console.info('Background music autoplay was blocked by the browser; tap or click the page to start it.');
+    } else {
+      console.error('Could not start background music:', error);
+    }
+  });
+}
+startMusic();
+
+/* ---- customize panel ---- */
+$('vUrl').onchange = e => setVideo(e.target.value.trim());
+$('vFile').onchange = e => { const f = e.target.files[0]; if (f) setVideo(URL.createObjectURL(f)); };
+$('mFile').onchange = e => { const f = e.target.files[0]; if (f) setMusic(URL.createObjectURL(f)); };
+[0, 1, 2].forEach(i => $('p' + i).onchange = e => {
+  const f = e.target.files[0];
+  if (f) $('ph' + i).src = URL.createObjectURL(f);
+});
+</script>
+</body>
+</html>
